@@ -25,10 +25,13 @@ public class ProductosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Producto>> Create(Producto producto)
-    {
-        _db.Productos.Add(producto);
-        await _db.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetByCodigo), new { codigo = producto.Codigo }, producto);
-    }
+public async Task<ActionResult<Producto>> Create(Producto producto)
+{
+    var existe = await _db.Productos.AnyAsync(p => p.Codigo == producto.Codigo);
+    if (existe) return Conflict(new { mensaje = $"Ya existe un producto con el código {producto.Codigo}" });
+
+    _db.Productos.Add(producto);
+    await _db.SaveChangesAsync();
+    return CreatedAtAction(nameof(GetByCodigo), new { codigo = producto.Codigo }, producto);
+}
 }

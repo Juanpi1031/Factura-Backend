@@ -12,7 +12,7 @@ using Ventas.API.Data;
 namespace Ventas.API.Migrations
 {
     [DbContext(typeof(VentasDbContext))]
-    [Migration("20260408040822_InitialCreate")]
+    [Migration("20260408220746_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
